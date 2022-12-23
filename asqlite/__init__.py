@@ -49,6 +49,7 @@ from typing import (
 )
 
 from types import TracebackType
+from colelctions import namedtuple
 
 __version__ = '2.0.0a'
 
@@ -489,13 +490,17 @@ class Connection:
         async with self.execute(query, *parameters) as cursor:
             return await cursor.fetchall()
 
+def namedtuple_factory(cursor, row):
+        fields = [column[0] for column in cursor.description]
+        cls = collections.namedtuple("Row", fields)
+        return cls._make(row)
 
 def _connect_pragmas(db: Union[str, bytes], **kwargs: Any) -> sqlite3.Connection:
     connection = sqlite3.connect(db, **kwargs)
     connection.execute('pragma journal_mode=wal')
     connection.execute('pragma foreign_keys=ON')
     connection.isolation_level = None
-    connection.row_factory = sqlite3.Row
+    connection.row_factory = namedtuple_factory
     return connection
 
 
