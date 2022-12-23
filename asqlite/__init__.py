@@ -49,7 +49,7 @@ from typing import (
 )
 
 from types import TracebackType
-from colelctions import namedtuple
+from collections import namedtuple
 
 __version__ = '2.0.0a'
 
