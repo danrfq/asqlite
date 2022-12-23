@@ -491,7 +491,7 @@ class Connection:
             return await cursor.fetchall()
 
 def namedtuple_factory(cursor, row):
-        fields = [column[0] for column in cursor.description]
+        fields = [column[0].replace("(*)", "") for column in cursor.description]
         cls = namedtuple("Row", fields)
         return cls._make(row)
 
