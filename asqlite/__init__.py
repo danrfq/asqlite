@@ -492,7 +492,7 @@ class Connection:
 
 def namedtuple_factory(cursor, row):
         fields = [column[0] for column in cursor.description]
-        cls = collections.namedtuple("Row", fields)
+        cls = namedtuple("Row", fields)
         return cls._make(row)
 
 def _connect_pragmas(db: Union[str, bytes], **kwargs: Any) -> sqlite3.Connection:
